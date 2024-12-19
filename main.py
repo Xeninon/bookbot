@@ -3,8 +3,27 @@ def main():
         file_contents = f.read()
         word_int = word_count(file_contents)
         char_dict = char_count(file_contents)
-        print(f"book has {word_int} words")
-        print(f"letter count: {char_dict}")
+        sorted_list = chars_dict_to_sorted_list(char_dict)
+        print("--- Begin report of books/frankenstein.txt ---")
+        print()
+        print(f"{word_int} words found in the document")
+
+        for item in sorted_list:
+            if item["char"].isalpha():
+                print(f"The '{item['char']}' character was found {item['num']} times")
+
+        print("--- End report ---")
+
+
+def sort_on(d):
+    return d["num"]
+    
+def chars_dict_to_sorted_list(num_chars_dict):
+    sorted_list = []
+    for ch in num_chars_dict:
+        sorted_list.append({"char": ch, "num": num_chars_dict[ch]})
+    sorted_list.sort(reverse=True, key=sort_on)
+    return sorted_list
 
 def word_count(string):
     words = string.split()
@@ -12,39 +31,13 @@ def word_count(string):
     return length
 
 def char_count(string):
-    chardict = {
-        "a" : 0,
-        "b" : 0,
-        "c" : 0,
-        "d" : 0,
-        "e" : 0,
-        "f" : 0,
-        "g" : 0,
-        "h" : 0,
-        "i" : 0,
-        "j" : 0,
-        "k" : 0,
-        "l" : 0,
-        "m" : 0,
-        "n" : 0,
-        "o" : 0,
-        "p" : 0,
-        "q" : 0,
-        "r" : 0,
-        "s" : 0,
-        "t" : 0,
-        "u" : 0,
-        "v" : 0,
-        "w" : 0,
-        "x" : 0,
-        "y" : 0,
-        "z" : 0,
-    }
-    lowered_string = string.lower()
-    for char in lowered_string:
-        if char in chardict:   
-            chardict[char] += 1
-    return chardict
-
+    chars = {}
+    for c in string:
+        lowered = c.lower()
+        if lowered in chars:
+            chars[lowered] += 1
+        else:
+            chars[lowered] = 1
+    return chars
 
 main()
