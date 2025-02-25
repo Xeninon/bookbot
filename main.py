@@ -1,5 +1,12 @@
+import sys
+from stats import word_count
+
+if len(sys.argv) != 2:
+    print("Usage: python3 main.py <path_to_book>")
+    sys.exit(1)
+
 def main():
-    with open("books/frankenstein.txt") as f:
+    with open(sys.argv[1]) as f:
         file_contents = f.read()
         word_int = word_count(file_contents)
         char_dict = char_count(file_contents)
@@ -24,11 +31,6 @@ def chars_dict_to_sorted_list(num_chars_dict):
         sorted_list.append({"char": ch, "num": num_chars_dict[ch]})
     sorted_list.sort(reverse=True, key=sort_on)
     return sorted_list
-
-def word_count(string):
-    words = string.split()
-    length = len(words)
-    return length
 
 def char_count(string):
     chars = {}
